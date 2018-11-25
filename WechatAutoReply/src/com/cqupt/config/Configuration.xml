@@ -36,8 +36,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
                     POOLED ：JDBC连接对象的数据源连接池的实现，不直接支持第三方数据库连接池  
             -->  
             <dataSource type="POOLED">  
-                <property name="driver" value="${driver}" />  
-                <property name="url" value="jdbc:mysql://127.0.0.1:3306/wechat" />  
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />  
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/wechat?serverTimezone=UTC&amp;charcaterEncoding=utf8&amp;useUincode=true&amp;useSSL=false" />  
                 <property name="username" value="root" />  
                 <property name="password" value="1234" />  
             </dataSource>  
