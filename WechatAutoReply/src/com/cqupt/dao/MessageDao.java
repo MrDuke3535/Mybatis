@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 
 import com.cqupt.bean.Message;
 import com.cqupt.db.DBAccess;
 
 public class MessageDao {
-
 	/**
 	 * 根据command和description查询消息列表
 	 * @param command
@@ -63,13 +63,41 @@ public class MessageDao {
 //		return messages;
 //	}
 	
+	/*
+	 * 获取数据列表
+	 */
 	public List<Message> getMessageList(String command,String description){
 		SqlSession sqlSession=null;
 		DBAccess dbAccess=new DBAccess();
 		List<Message> messages = new ArrayList<Message>();
 		try {
 			sqlSession=dbAccess.getSqlSession();
-			messages=sqlSession.selectList("Message.getMessageList");
+			Message message = new Message();
+			message.setCommand(command);
+			message.setDescription(description);
+			messages=sqlSession.selectList("Message.getMessageList",message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(sqlSession!=null){
+				sqlSession.close();
+			}
+		}
+		return messages;
+	}
+	
+	
+	/**
+	 * 删除单项数据
+	 * @param id
+	 */
+	public void deleteOne(int id){
+		SqlSession sqlSession=null;
+		DBAccess dbAccess = new DBAccess();
+		try {
+			sqlSession=dbAccess.getSqlSession();
+			sqlSession.delete("Message.deleteOne",id);
+			sqlSession.commit();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,10 +105,26 @@ public class MessageDao {
 			if(sqlSession!=null){
 				sqlSession.close();
 			}
+			
 		}
-		
-		return messages;
 	}
 	
-
+	/**
+	 *删除多项数据
+	 */
+	public void deleteBatch(List<Integer> ids){
+		SqlSession sqlSession=null;
+		DBAccess dbAccess = new DBAccess();
+		try {
+			sqlSession=dbAccess.getSqlSession();
+			sqlSession.delete("Message.deleteBatch",ids);
+			sqlSession.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(sqlSession!=null){
+				sqlSession.close();
+			}
+		}
+	}
 }

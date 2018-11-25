@@ -10,20 +10,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE" />
 		<title>内容列表页面</title>
-		<link href="<%=basePath %>/resources/css/all.css" rel="stylesheet" type="text/css" />
+		<link href="<%=basePath %>resources/css/all.css" rel="stylesheet" type="text/css" />
+		<script src="<%= basePath %>resources/js/list.js">
+		</script>
 	</head>
 	<body style="background: #e1e9eb;">
 		<form action="" id="mainForm" method="post">
+		<input type="hidden" id="id" name="id" />
 			<div class="right">
 				<div class="current">当前位置：<a href="javascript:void(0)" style="color:#6E6E6E;">内容管理</a> &gt; 内容列表</div>
 				<div class="rightCont">
-					<p class="g_title fix">内容列表 <a class="btn03" href="#">新 增</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn03" href="#">删 除</a></p>
+					<p class="g_title fix">内容列表 <a class="btn03" href="#">新 增</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn03" href="javascript:deleteBatch('<%=basePath %>')">删 除</a></p>
 					<table class="tab1">
 						<tbody>
 							<tr>
 								<td width="90" align="right">指令名称：</td>
 								<td>
-									<input type="text" name="command" class="allInput" value="${description }"/>
+									<input type="text" name="command" class="allInput" value="${command }"/>
 								</td>
 								<td width="90" align="right">描述：</td>
 								<td>
@@ -45,13 +48,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</tr>
 								<c:forEach items="${messages }" var="message" varStatus="status">
 								<tr <c:if test="${status.index%2==1}">style="background-color:#ECF6EE;"</c:if>>
-									<td><input type="checkbox" /></td>
+									<td><input name="ids" type="checkbox" value="${message.id }"/></td>
 									<td>${status.index+1 }</td>
 									<td>${message.command}</td>
 									<td>${message.description}</td>
 									<td>
 										<a href="#">修改</a>&nbsp;&nbsp;&nbsp;
-										<a href="#">删除</a>
+										<!-- <a href="${basePath }DeleteOneServlet?id=${message.id }">删除</a> -->
+										<a href="javascript:;" onclick="javascript:deleteOne('${basePath }',${message.id })">删除</a>
 									</td>
 								</tr>
 								</c:forEach>
