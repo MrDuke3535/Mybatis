@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mapper namespace="Message">
+<resultMap type="com.cqupt.entity.Message" id="MessageResult">
+<id column="ID" jdbcType="" property="id"></id>
+<result column="COMMAND" jdbcType="VERCHAR" property="command"></result>
+<result cloumn="DESCRIPTION" jdbcType="VERCHAR" property="description"></result>
+<result column="CONTENT" jdbcType="VERCHAR" property="content"></result>
+</resultMap>
+
+<select id="getMessageList" resultMap="MessageResult">
+select ID,COMMAND,DESCRIPTION,CONTENT from message where 1=1
+</select>
+
+
+</mapper>
